@@ -1,0 +1,30 @@
+- traditional storing of data
+  - save a direct value
+  - overrite this value with latest changes
+  - there are can be a lot of changes, but what we have is a latet value
+  - so we are losing all changes, all intents
+- event source approach
+  - we never change data
+  - all changes are stored as a append only immutable event log
+  - we never lose information
+- difference
+  - as a resulted state - these two representations are equal
+  - but the second one contains all information and intents
+  - let's imaging a case - on black friday day, a lot of people JUST BEFORE purchase
+    deleted some items from a shopping cart - because a total prise was > then they planned
+    nut basically all these items was very intersting for them, so let's find out all such cases
+    and add 5% promotion and send out campaign emails
+    in canonical way we can change our code to handle such cases, but the data already LOST
+  - and there can be a lot of such cases, and we never know, which data we are losing today,
+    but we really need it next year
+  - event source has in-built protection agains data lost
+- the on IMPORTANT difference
+  - many teams are doing some sort of audit logs, we have - autlogs collection, hsitory collection
+    even some kibana logs or it can be something different for this purpose, but ...
+  - if we have application state - this is a final state of all our data, and it can be
+    stored in different form in same db, in absolutly different db, in memory of running application
+    or build on the fly on demand (per request) - and we have an event log, than in any given
+    point of time, I can drop my application state and safely rebuild it from event log
+  - and we should achieve this with a big confidence, because our
+    application state is a first level derivative of the event log
+  - if we can't do this for some reason - our system is not trully event-sourced

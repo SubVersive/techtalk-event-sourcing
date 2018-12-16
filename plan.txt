@@ -1,0 +1,69 @@
+- normal persistent models
+- what is app state
+- how es compare to normal
+- show information losing example
+- why it exists and why we need it
+  - a lot of current businesses a event sourced by nature
+    - source control
+    - lawer business (contracts)
+    - finance (bank account)
+    - health (health history)
+  - the only way to not lost information
+    - add / remove item example
+  - debugging
+    - powerful to find a bug (checkout specific version)
+    - and to fix - full revert + partial revert
+  - flexibility on read side which can give huge performance boost
+  - different representations of data (bank account current balance - fututre transactions)
+  - performance
+
+- saving entity
+- loading entity
+- projections / read models
+  - server driven (bus)
+    - break 2 lows of pub sub
+    - consumer require full history
+    - during reprocessing history what should we do with new events
+  - consumer driven
+    - like a blog
+    - easy to scale
+    - no problem with history consumer doing what they want
+      - getIems(from, count)
+
+- snapshots
+  - save separetly
+- concurrency updates
+- can be used on clients (ocassionally conected) - solve syncing problem
+- problems
+  - unfamilliar
+  - save identifiers for future reprocessing
+  - external system calls - we should save responses for future reprocessing
+  - versiononig
+- GDPR
+
+- commands vs events
+  - past vs future
+  - can be rejected
+
+- State is a first level derivative of the event stream
+  Current state (e.g. the balance of a bank account) is the derivative of all the events that have happened up until now.
+
+- Every aggregate has its own event stream
+
+StreamId	Guid
+Data	Blob
+Version	Int
+There is also some additional but optional information that can be stored if convenient or required by the business:
+
+The event type (e.g. ShippingInformationAdded)
+Event version (unique within context of a given stream)
+Correlation ID
+Timestamp
+Other meta data (e.g. user, permission level, IP addresses)
+
+- Events are immutable
+- There is no delete
+
+- Append-only models distribute more easily than updating models. There are far fewer locks to deal with and horizontal partitioning with the aggregate ID as the partition key is easy.
+- No information is lost. This is extremely valuable if the business can derive a competitive advantage from the data.
+

@@ -1,0 +1,21 @@
+# Logs
+logs
+*.log*
+
+# Build
+dist
+
+# storybook
+.cache
+
+# Vagrant
+.vagrant
+
+# Dependency directories
+node_modules
+
+# MAC
+.DS_Store
+
+# WebStorm
+.idea

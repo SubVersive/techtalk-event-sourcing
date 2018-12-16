@@ -1,0 +1,21 @@
+.code {
+  font-family: 'Courier New', Courier, monospace !important;
+}
+
+.small {
+  font-size: 30px !important;
+}
+
+.white {
+  background-color: white;
+}
+
+.page-title {
+  color: orange;
+  font-size: 48px !important;
+  border-bottom: 1px solid orange !important;
+}
+
+.cross {
+  text-decoration: line-through;
+}

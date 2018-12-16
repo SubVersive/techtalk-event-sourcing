@@ -1,0 +1,231 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>Event Sourcing</title>
+
+  <link rel="stylesheet" href="css/reveal.css">
+  <link rel="stylesheet" href="css/theme/league.css">
+  <link rel="stylesheet" href="css/custom.css">
+
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+    document.getElementsByTagName('head')[0].appendChild(link);
+  </script>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        event sourcing
+      </section>
+      <section>
+        <section>
+          <div class="page-title">customer</div>
+          <pre>
+              <code data-trim data-noescape class="json">
+  {
+    id: 122,
+    firstName: "Max",
+    lastName: "Pecu",
+    birthday: "20/12/1991",
+    role: "user"
+  }
+              </code>
+            </pre>
+        </section>
+        <section>
+          <div class="page-title">update customer</div>
+          <pre>
+              <code data-trim data-noescape class="json">
+  {
+    id: 122,
+    firstName: <span class="cross">"Max"</span> "Tommy",
+    lastName: "Pecu",
+    birthday: "10/12/1991",
+    role: "admin"
+  }
+              </code>
+            </pre>
+        </section>
+        <section>
+          <div class="page-title">at some point</div>
+          <pre>
+              <code data-trim data-noescape class="json">
+  {
+    id: 122,
+    firstName: "Jack",
+    lastName: "Funny",
+    birthday: "20/12/1991",
+    role: "user"
+  }
+              </code>
+            </pre>
+        </section>
+      </section>
+      <section>
+        <section>
+          <div class="page-title">es-customer</div>
+          <pre>
+              <code data-trim data-noescape class="json">
+  [{
+    aggregateId: 122,
+    type: "customer-created",
+    payload: {
+      firstName: "Max",
+      lastName: "Pecu",
+      birthday: "20/12/1991",
+      role: "user"
+    }
+  }]
+              </code>
+            </pre>
+        </section>
+        <section>
+          <div class="page-title">update es-customer</div>
+          <pre>
+              <code data-trim data-noescape class="json">
+[{
+  aggregateId: 122,
+  type: "created",
+  payload: {
+    firstName: "Max",
+    lastName: "Pecu",
+    birthday: "20/12/1991",
+    role: "user"
+  }
+}, {
+  aggregateId: 122,
+  type: "lastname-change-requested",
+  payload: {
+    lastName: "Pecu"
+  }
+}]
+              </code>
+            </pre>
+        </section>
+        <section>
+          <div class="page-title">at some point</div>
+          <pre>
+              <code data-trim data-noescape class="json">
+[{
+  aggregateId: 122,
+  type: "created",
+  payload: {...}
+},
+...
+{
+  aggregateId: 122,
+  type: "lastname-change-requested",
+  payload: {...}
+}]
+              </code>
+            </pre>
+        </section>
+        <section>
+          <div class="page-title">event stream</div>
+          <div class="fragment">
+            <ul>
+              <li>immutable</li>
+              <li>append-only</li>
+              <li>no data-last</li>
+              <li>whole history</li>
+            </ul>
+          </div>
+        </section>
+      </section>
+      <section>
+        <section>
+          <div class="page-title">shopping cart</div>
+          <pre class="fragment">
+            <code data-trim data-noescape class="json">
+{
+  aggregateId: 122,
+  items: ['teapot', 'keyboard'],
+}
+            </code>
+          </pre>
+          <pre class="fragment">
+            <code data-trim data-noescape class="json">
+[
+  { aggregateId: 122, type: 'item-added', 'teapot' },
+  { aggregateId: 122, type: 'item-added', 'milk' },
+  { aggregateId: 122, type: 'item-added', 'keyboard' },
+  { aggregateId: 122, type: 'item-removed', 'milk' },
+]
+            </code>
+          </pre>
+        </section>
+        <section>
+          <h1>what if</h1>
+          <img src="img/idea.jpg" />
+        </section>
+        <section>
+          <pre>
+            <code data-trim data-noescape class="json">
+{
+  aggregateId: 122,
+  items: ['teapot', 'keyboard'],
+  deletedItems: ['milk']
+}
+            </code>
+          </pre>
+        </section>
+        <section>
+          <h3 class="fragment">change a code</h3>
+          <h4 class="fragment">test changes</h4>
+          <h5 class="fragment">push live</h5>
+          <h6 class="fragment">and...</h6>
+          <h2 class="fragment">we have nothing</h2>
+        </section>
+        <section>
+          <i>"we never know, what we arelosing now, that we can use next year"</i>
+        </section>
+      </section>
+      <section>
+        <section>
+          <h4>one important detail</h4>
+        </section>
+        <section>
+          <img src="img/app_state.png" />
+        </section>
+        <section>
+          <i>application state is a first level derivative of the event log</i>
+        </section>
+      </section>
+      <section>
+        <div class="page-title">Q&A</div>
+      </section>
+    </div>
+  </div>
+
+  <script src="lib/js/head.min.js"></script>
+  <script src="js/reveal.js"></script>
+
+  <script>
+    // More info about config & dependencies:
+    // - https://github.com/hakimel/reveal.js#configuration
+    // - https://github.com/hakimel/reveal.js#dependencies
+    Reveal.initialize({
+      dependencies: [
+        { src: 'plugin/markdown/marked.js' },
+        { src: 'plugin/markdown/markdown.js' },
+        { src: 'plugin/notes/notes.js', async: true },
+        { src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
+      ]
+    });
+  </script>
+</body>
+
+</html>
