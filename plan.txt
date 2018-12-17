@@ -1,27 +1,21 @@
-- normal persistent models
-- what is app state
-- how es compare to normal
-- show information losing example
-- eventual consistency
-- why it exists and why we need it
-  - a lot of current businesses a event sourced by nature
-    - source control
-    - lawer business (contracts)
-    - finance (bank account)
-    - health (health history)
-  - the only way to not lost information
-    - add / remove item example
-  - debugging
-    - powerful to find a bug (checkout specific version)
-    - and to fix - full revert + partial revert
-  - flexibility on read side which can give huge performance boost
-  - different representations of data (bank account current balance - fututre transactions)
-  - performance
++ normal persistent models
++ what is app state
++ how es compare to normal
++ show information losing example
++ eventual consistency
++ why it exists and why we need it
+  + a lot of current businesses a event sourced by nature
+    + source control
+    + lawer business (contracts)
+    + finance (bank account)
+    + health (health history)
+  + the only way to not lost information
+    + add / remove item example
 
 
-- saving entity
-- loading entity
-- projections / read models
++ saving entity
++ loading entity
++ projections / read models
   - you can build as many as you want, they easily replace you queries
     but they scale better and much faster, because you don't need to think about indexes
     and you can you any shape as you want or event any DB (elastic / graph db)
@@ -34,6 +28,14 @@
     - easy to scale
     - no problem with history consumer doing what they want
       - getIems(from, count)
+
+ - debugging
+    - powerful to find a bug (checkout specific version)
+    - and to fix - full revert + partial revert
+    - when you wrongly calculate pay slips without es hard to recover
+  - flexibility on read side which can give huge performance boost
+  - different representations of data (bank account current balance - fututre transactions)
+  - performance
 
 - snapshots
   - save separetly

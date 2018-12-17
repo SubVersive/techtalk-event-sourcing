@@ -28,3 +28,33 @@
   - and we should achieve this with a big confidence, because our
     application state is a first level derivative of the event log
   - if we can't do this for some reason - our system is not trully event-sourced
+
+- code samples 01 / 02
+  - simple read implementaton can be used for building read model
+  - filter and sorting part should be done on database level
+  - it is really simple code, you don't need any tools and frameworks for that
+
+- why it exists
+  - event sourcing is not new concept at all, maybe the term if fresh and fancy
+    but the idea is really old
+  - there are many different businesses which are already eventsourced by nature
+    - finance - your bank account is not a just a number of your current balance
+      it is a whole list of all debit/credit transactions, and only I will fold them
+      all tohether I will have a balance. It's needed not only like a nice feature
+      for customer of all his history records, but as a provement that his balance
+      is correctly calcculated. in finance it was always like a append only mode,
+      if you make a mistake thay never cross out this in their papaer, they fixed it
+      with partial or full revert. Partial = +100 -> -10. Full = +100 -> -100 -> +90.
+    - lawyer - your current working contract for example is not a single document.
+      when there are some changes, they don't change existing terms, they ususally create
+      Addendum -> addition. And if you need to understand you real final contract conditions
+      you should take your original contract, all addendums in correct order, merge them
+      and then you have an idea of you conditions.
+    - health - doctor don't change you sick history, they always append all data to it
+    - it
+      - source control (git) - you current working copy is just a list of commits
+        merged togehter in proper order
+      - database (transactions) or oplog for syncing data between replicas
+    and others
+      - insurance
+      - gambling
