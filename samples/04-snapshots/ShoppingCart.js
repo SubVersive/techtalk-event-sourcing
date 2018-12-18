@@ -1,9 +1,18 @@
 class ShoppingCart {
   constructor(id) {
     this.id = id;
+    this.snapshot = 0;
     this.checkpoint = 0;
     this.items = [];
     this.$newEvents = [];
+  }
+
+  static fromSnapshot(snapshot) {
+    const cart = new ShoppingCart(snapshot.aggregate)
+    Object.assign(cart, snapshot.payload);
+    cart.$newEvents = [];
+    cart.snapshot = snapshot.version;
+    return cart;
   }
 
   apply(event) {
