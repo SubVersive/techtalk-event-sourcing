@@ -11,23 +11,21 @@
     + health (health history)
   + the only way to not lost information
     + add / remove item example
-
-
 + saving entity
 + loading entity
 + projections / read models
-  - you can build as many as you want, they easily replace you queries
+  + you can build as many as you want, they easily replace you queries
     but they scale better and much faster, because you don't need to think about indexes
     and you can you any shape as you want or event any DB (elastic / graph db)
-  - server driven (bus)
-    - break 2 lows of pub sub
-    - consumer require full history
-    - during reprocessing history what should we do with new events
-  - consumer driven
-    - like a blog
-    - easy to scale
-    - no problem with history consumer doing what they want
-      - getIems(from, count)
+  + server driven (bus)
+    + break 2 lows of pub sub
+    + consumer require full history
+    + during reprocessing history what should we do with new events
+  + consumer driven
+    + like a blog
+    + easy to scale
+    + no problem with history consumer doing what they want
+      + getIems(from, count)
 
  - debugging
     - powerful to find a bug (checkout specific version)

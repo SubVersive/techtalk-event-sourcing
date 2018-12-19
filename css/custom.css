@@ -20,3 +20,8 @@
 .cross {
   text-decoration: line-through;
 }
+
+.caption {
+  font-size: 10px;
+  color: tan;
+}

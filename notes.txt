@@ -58,3 +58,60 @@
     and others
       - insurance
       - gambling
+
+- projections
+  - having a event log a very nice but there is one problem with this - doing different
+    scans. For example just image that we have to do some queries against our data, it could
+    be analytical queries like avg cart price per city, or some admin search - show all open
+    carts created today, with failed payment. To do this we should have a final applicaiton
+    state, to get which we have to rebuild all our aggregates, which can be time consuming
+    if you have a lot of data. To solve this all event sourced systems use approach of
+    creating read models (projection) based on event log.
+  - read models are very powerfull
+    - you can have as many of them as you want, if you compare them as alternative
+      indeces in your db, they are partially cover such cases and indeces have drawbacks
+      slow writes and not always fast enough (count in mongo) or heavy aggregations
+      read models from other side are super fast, because they are focused on specific
+      use cases and you have no restrictions.
+    - they can be build on any technology - graph db, ealstic search which is more powerfull
+      then mongodb full text search
+    - there are two models two build projections server-driven and client-driven
+    - server driven model based on using some message bus in between of event store and
+      projection builders. When new event occurred we publish a new message into message
+      bus which will notify all existing clients. There is a problem with this approach - how
+      we can receive the whole history of events, when we adding new consumer or want to fully
+      rebuild existing projection. For this we should introduce some communication between
+      consumer and publisher - which is not really good, but still we have some problems with
+      syncronization of processing old events and new events which can come at any time.
+    - consumer drivern model works a little bit differently. evenry consumer keep track of
+      his position, and publisher just implement a simple interface getEvents(from, limit).
+      Then publisher has no idea of amount of consumers nad their activities, if they decide
+      to rebuild their state or there 2 more consumer, publisher just doesn'care. For scaling
+      here we can take a look into apache kafka.
+    - a good example of consumer driven approach is a blog, there is a RSS/Atom and you can
+      do whatever you want
+
+- shanpshots
+  - having a long living aggregates сan easily results in a many events.
+    and when you need to load it, then upi can produce some performance issues. in order to solve this
+    problem we can use snapshots. idea the following - you will create a fully serialized aggregate
+    bound to specific event. then when you have to load this aggregate, you find a corresponding
+    snapshots and all events created after snapshot was saved and apply only them.
+  - we can create snapshots per N-events, or even calculate load time of aggregate, and if
+    it will exceed some threshold  we create snapshot. It can be usefull if we applying events
+    contains some heavy algorithmics calculation and amount of events is not proportial to time.
+    The same we can apply by physical size of events
+  - better to store snapshots separately not inside event log like
+    a separate event, because this can lead to problem with versions. if we save them separately we
+    can easily drop and recreate them, and keep our event stream append only.
+
+- concurrency handling
+  - if we have traditional saving model, we can solve concurrency problem by using update where
+    modifiedAt or version equal to current. when no documents updated it means there is new version
+    of aggregate exists. for event log we also can use version field with unique index on aggregateId
+    and version, it will prevent inserting two events with same version.
+  - in mongodb could be a problem with inserting many documents at once, the solution could
+    be is to use transactions or don't use mongodb
+  - you should also consider to generate snapshots with concurrency in mind.
+
+

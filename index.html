@@ -216,11 +216,8 @@
         </ul>
       </section>
       <section>
-        Projections...
-      </section>
-      <section>
         <section>
-          <div class="page-title">why it exists ???</div>
+          <div class="page-title">when it is usefull ???</div>
           <ul>
             <li class="fragment">finance</li>
             <li class="fragment">lawyer</li>
@@ -237,6 +234,106 @@
             </li>
           </ul>
         </section>
+      </section>
+      <section>
+        <section>
+          <i>"working by ID is not always enough"</i>
+        </section>
+        <section>
+          <img src="/img/projections.png" style="max-width: 80%" />
+        </section>
+        <section>
+          <div class="page-title">read models</div>
+          <ul>
+            <li class="fragment">as many as you want</li>
+            <li class="fragment">super fast</li>
+            <li class="fragment">technology agnostic</li>
+          </ul>
+        </section>
+        <section>
+          <div class="page-title">server-driven projections</div>
+          <img src="/img/server-driven.png" />
+        </section>
+        <section>
+          <div class="page-title">server-driven projections</div>
+          <img src="/img/server-driven-2.png" />
+        </section>
+        <section>
+            <div class="page-title">consumer-driven projections</div>
+            <img src="/img/consumer-driven.png" style="max-width: 80%" />
+          </section>
+          <section>
+            <div class="page-title">consumer-driven projections</div>
+            <img src="/img/consumer-driven-2.png" style="max-width: 80%" />
+          </section>
+      </section>
+      <section>
+        <section>
+          <i>"more events - more problem"</i>
+        </section>
+        <section>
+          <div class="page-title">snapshots</div>
+          <img src="/img/snapshots-1.png" />
+        </section>
+        <section>
+          <div class="page-title">snapshots</div>
+          <img src="/img/snapshots-2.png" />
+        </section>
+        <section>
+          <div class="page-title">snapshots</div>
+          <img src="/img/snapshots-3.png" />
+        </section>
+        <section>
+          <div class="page-title">building snapshots</div>
+          <ul>
+            <li>create one if needed on saving aggregate</li>
+            <li>we can create every N-events</li>
+            <li>we can create with load time threshold</li>
+            <li>we can create with physical size threshold</li>
+            <li>better to save them separetly from event log</li>
+          </ul>
+        </section>
+      </section>
+      <section>
+        <section>
+          <div class="page-title">concurrency</div>
+        </section>
+        <section>
+          <div class="page-title">CRUD model</div>
+          <pre>
+            <code data-trim data-noescape class="json">
+{
+  id: 122,
+  modifiedAt: '12.12.2018',
+  firstName: "Jack",
+  lastName: "Funny",
+  birthday: "20/12/1991",
+  role: "user"
+}
+            </code>
+          </pre>
+          <h4>update where id = 122 AND modifiedAt='12.12.2018'</h4>
+        </section>
+        <section>
+            <div class="page-title">event soruced</div>
+            <pre>
+              <code data-trim data-noescape class="json">
+[
+  { id: 122, type: 'item-added', version: 1 },
+  { id: 122, type: 'item-added', version: 2 },
+  { id: 122, type: 'item-added', version: 3 }
+]
+              </code>
+            </pre>
+            <h4>unique index on id + version</h4>
+            <h4>keep track of event versions inside aggregate</h4>
+            <div class="fragment caption">
+              keep in mind mongodb insertMany
+            </div>
+            <div class="fragment caption">
+              keep in mind transactions for snapshots
+            </div>
+          </section>
       </section>
       <section>
         <div class="page-title">Q&A</div>
