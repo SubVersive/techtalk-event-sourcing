@@ -27,24 +27,28 @@
     + no problem with history consumer doing what they want
       + getIems(from, count)
 
- - debugging
-    - powerful to find a bug (checkout specific version)
-    - and to fix - full revert + partial revert
-    - when you wrongly calculate pay slips without es hard to recover
-  - flexibility on read side which can give huge performance boost
-  - different representations of data (bank account current balance - fututre transactions)
-  - performance
+ + debugging
+    + powerful to find a bug (checkout specific version)
+    + and to fix - full revert + partial revert
+    + when you wrongly calculate pay slips without es hard to recover
+  + flexibility on read side which can give huge performance boost
+  + different representations of data (bank account current balance - fututre transactions)
+  + performance
 
-- snapshots
-  - save separetly
-- concurrency updates
-- can be used on clients (ocassionally conected) - solve syncing problem
-- problems
-  - unfamilliar
-  - save identifiers for future reprocessing
-  - external system calls - we should save responses for future reprocessing
-  - versiononig
-- GDPR
++ snapshots
+  + save separetly
++ concurrency updates
++ can be used on clients (ocassionally conected) - solve syncing problem
++ problems
+  + unfamilliar
+  + save identifiers for future reprocessing
+  + external system calls - we should save responses for future reprocessing
+  + versionning
++ GDPR
+
+
+
+
 
 - commands vs events
   - past vs future

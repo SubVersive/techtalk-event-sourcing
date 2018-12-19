@@ -114,4 +114,72 @@
     be is to use transactions or don't use mongodb
   - you should also consider to generate snapshots with concurrency in mind.
 
+- nice to know
+  - learning curve - it exists but it is not harder then crud based, but because we all already
+    have a lot of experience with crud we are thinking that it is easier, but basically they are
+    really close to each other
+  - GDPR - we can introduce separate map for our aggregate ids to some encryption key, then we just
+    encode all our event paloads and snapshots with a corresponding key. When there is a request
+    for "deletion" come, we just drop the entry inside map. On some basis we can do event stream
+    compaction - where we can really delete items from event stream.
+  - ocassionally conected - this become really popular on the web for PWA, when we can implement
+    event sourcing on client app - pwa or native app, then users still can use partially our app
+    and when connection is restored we can merge tow event streams, which is much easier then
+    try to merge some calculated enteties. You can think about trello, wunderlist where concurrency
+    between events can be easily solved in automatic way.
+
+- when it hurts
+  - unfamilliar - we are so experienced with CRUD and usually against of trying something new
+  - versions - this is a most problematic thing, there is whole book from Greg Young about this,
+    so basically you can start with simple event type  version field and have a separate handler
+    for this event version, but with a tome it can produce more problem. better to get overview from
+    book or have a separate talk.
+  - eventual consistency - that is a little bit tricky because there no such constraints in
+    event sourcing itself, but more practices force you to move to this direction, like read models.
+    and thus can be challenging from point of view developers and business. i personally 5 years ago
+    can not think about system that eventual consistent, but now we are really doing this with great
+    level of success, i mean our queues. submit contract request, update non existing contract like
+    a contract update, its just working fine.
+  - external calls results - for example in item-added we have a price which of cause can change
+    over the time, or some dynamic discounts we should capture thus inside event, in order to
+    preserve same output on reprocessing of event log 
+  - shared ids - if we for example on create event generate some id which then will be shared
+    across other service ww should create a method which will produce same result, like hash
+    functions or some predictable calculations or reprocessing or put the id inside an event.
+    our action id is good example here.
+  - extra storage - for sure it can be a problem, but now space is cheap and you should have
+    really different data size to consider this as a problem
+
+- when it shines
+  - performance - projections with flexible persisten model give to us incredible read performance
+    from one side, and append only event stream give huge performance on another. appending is much
+    faster then locking+update or locking+delete
+  - debugging
+    - having a full event log give you really nice debugging capability.
+      in case of a bug you can easily restore your aggregate to specific version, and then
+      repeat an action. which produced a bug. then you can do a fix with full or partial recover.
+      Partial recover it means you calculate difference between correct and wrong action and apply
+      it, full is about fully revert an action and apply correct action. example bad transaction
+      we sent 1000 eur instead of 100. partial fix is to get out 900. it can be more complex
+      in reality because of several accounts involved or math is more harder so better to do
+      full revert here. get out 1000, and then send out 100. with event sourcing is much easier
+      to find and fix such cases.
+  - flexibility - different read models as a graph DB or elasticsearch. We can scale read
+    and writes separetly. We also can easily change internal structure of our aggregate,
+    mandate type as a string, as a object, as a array of objects.
+  - scalability - we can build as many projection as we want and scale read models separetly
+    writes should perform fast enough. We can scale read and writes separetly.
+  - no data lost - everything is tracked
+  - maintanability
+    - in many system we have generic methods and interfaces like a contract update.
+      which is good from point of view less code, but which make the whole system to understand,
+      because all logic is spread across all clients of your the service. with event sourcing you
+      forced more to use use case driven design, where you have rich domain model with more clear
+      methods like, brokerMandateRequested, publish, reject, transfer and etc.
+
+
+
+
+
+
 
