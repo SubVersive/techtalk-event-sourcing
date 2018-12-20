@@ -1,8 +1,9 @@
 class ShoppingCart {
   constructor(id) {
     this.id = id;
-    this.checkpoint = 0;
     this.items = [];
+    // techinceal
+    this.checkpoint = 0;
     this.$newEvents = [];
   }
 
@@ -28,6 +29,7 @@ class ShoppingCart {
     return this.items.reduce((prev, cur) => prev + cur.price, 0);
   }
 
+  // some setters
   addItem(item) {
     const newEvent = {
       type: 'item-added',

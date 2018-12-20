@@ -1,4 +1,4 @@
-- traditional storing of data
+- traditional persistent mode (crud based)
   - save a direct value
   - overrite this value with latest changes
   - there are can be a lot of changes, but what we have is a latet value

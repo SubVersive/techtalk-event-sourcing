@@ -15,10 +15,10 @@ const addItem = (id, item) => {
 }
 
 const loadCart = (id) => {
-  const shoppingCart = new ShoppingCart(id);
   const existing = events
     .filter(item => item.aggregate === id)
     .sort((a, b) => a.order - b.order);
+  const shoppingCart = new ShoppingCart(id);
   existing.forEach(event => shoppingCart.apply(event));
   return shoppingCart;
 };
