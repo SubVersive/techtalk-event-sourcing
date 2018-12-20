@@ -164,6 +164,8 @@
       in reality because of several accounts involved or math is more harder so better to do
       full revert here. get out 1000, and then send out 100. with event sourcing is much easier
       to find and fix such cases.
+  - tracing-audit - history items- a lot of work but still not precise and something is missing
+    with es you out of the box have pretty good tool
   - flexibility - different read models as a graph DB or elasticsearch. We can scale read
     and writes separetly. We also can easily change internal structure of our aggregate,
     mandate type as a string, as a object, as a array of objects.
@@ -176,7 +178,6 @@
       because all logic is spread across all clients of your the service. with event sourcing you
       forced more to use use case driven design, where you have rich domain model with more clear
       methods like, brokerMandateRequested, publish, reject, transfer and etc.
-
 
 
 
