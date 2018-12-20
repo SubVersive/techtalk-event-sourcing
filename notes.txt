@@ -75,7 +75,7 @@
       use cases and you have no restrictions.
     - they can be build on any technology - graph db, ealstic search which is more powerfull
       then mongodb full text search
-    - there are two models two build projections server-driven and client-driven
+    - there are two models to build projections: server-driven and consumer-driven
     - server driven model based on using some message bus in between of event store and
       projection builders. When new event occurred we publish a new message into message
       bus which will notify all existing clients. There is a problem with this approach - how
@@ -85,7 +85,7 @@
       syncronization of processing old events and new events which can come at any time.
     - consumer drivern model works a little bit differently. evenry consumer keep track of
       his position, and publisher just implement a simple interface getEvents(from, limit).
-      Then publisher has no idea of amount of consumers nad their activities, if they decide
+      Then publisher has no idea of amount of consumers and their activities, if they decide
       to rebuild their state or there 2 more consumer, publisher just doesn'care. For scaling
       here we can take a look into apache kafka.
     - a good example of consumer driven approach is a blog, there is a RSS/Atom and you can
@@ -131,7 +131,7 @@
 - when it hurts
   - unfamilliar - we are so experienced with CRUD and usually against of trying something new
   - versions - this is a most problematic thing, there is whole book from Greg Young about this,
-    so basically you can start with simple event type  version field and have a separate handler
+    so basically you can start with simple event type version field and have a separate handler
     for this event version, but with a tome it can produce more problem. better to get overview from
     book or have a separate talk.
   - eventual consistency - that is a little bit tricky because there no such constraints in
